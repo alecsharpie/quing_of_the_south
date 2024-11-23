@@ -53,7 +53,7 @@ def plot_cumulative_scores(df):
     
     # Plot each player's cumulative score with varying line styles
     line_styles = ['-', '--', '-.', ':']
-    lines = []  # Store lines for legend
+    lines = []
     for idx, column in enumerate(cumulative_scores.columns):
         line_style = line_styles[idx % len(line_styles)]
         final_score = cumulative_scores[column].iloc[-1]
@@ -66,13 +66,12 @@ def plot_cumulative_scores(df):
                        alpha=0.8,)[0]
         lines.append(line)
         
-        # Store the final score and player name for label positioning
         final_scores[final_score].append(column)
     
-    # Add labels at the end of lines with minimal offset
+    # offset labels at the end of lines
     max_game = df['Game'].max()
     y_range = ax1.get_ylim()[1] - ax1.get_ylim()[0]
-    offset = y_range * 0.01  # Reduced to 1% of y-axis range
+    offset = y_range * 0.01  # 1% of the y-range
     
     # Sort final scores for better label placement
     for final_score in sorted(final_scores.keys()):
@@ -88,7 +87,6 @@ def plot_cumulative_scores(df):
                     verticalalignment='center',
                     fontsize=8)
     
-    # Customize the main plot with reduced padding
     ax1.set_title('Quing of the South 2024 - Scorecard', fontsize=14, pad=10)
     ax1.set_xlabel('Game #', fontsize=10, labelpad=5)
     ax1.set_ylabel('Cumulative Points', fontsize=10, labelpad=5)
@@ -99,20 +97,20 @@ def plot_cumulative_scores(df):
     # Set minimal margins
     ax1.margins(x=0.01, y=0.02)
     
-    # Adjust x-axis limits with less padding
-    ax1.set_xlim(-0.5, max_game + 12)  # Reduced padding for annotations
+    # Adjust x-axis limits
+    ax1.set_xlim(-0.5, max_game + 12)  # padding for annotations
     
-    # Add compact legend at the bottom
+    # add legend
     ncols = min(8, len(lines))
     legend = ax1.legend(lines, [line.get_label() for line in lines],
                        loc='upper center',
-                       bbox_to_anchor=(0.5, -0.12),  # Moved closer to plot
+                       bbox_to_anchor=(0.5, -0.12), 
                        ncol=ncols,
                        fontsize=9,
                        frameon=True,
                        borderaxespad=0.,
-                       handlelength=1.5,  # Shorter legend lines
-                       columnspacing=1.0)  # Reduced space between columns
+                       handlelength=1.5,
+                       columnspacing=1.0)
     
     # Adjust spacing between subplot elements - minimal margins
     plt.subplots_adjust(top=0.95, bottom=0.15, left=0.08, right=0.98)
@@ -120,10 +118,9 @@ def plot_cumulative_scores(df):
     return fig
 
 if __name__ == "__main__":
-    # Replace with your CSV file path
+    
     csv_path = "raw_data/quing_of_the_south_2024_results.csv"
     
-    # Prepare the data
     df = prepare_tournament_data(csv_path)
     
     # Create and save the cumulative scores plot
