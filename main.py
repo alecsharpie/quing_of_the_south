@@ -34,7 +34,7 @@ def generate_plot_styles(n: int) -> Tuple[List[tuple], List[str]]:
     line_styles = ['-', '--', '-.', ':']
     return colors, line_styles
 
-def plot_cumulative_scores(df: pd.DataFrame) -> plt.Figure:
+def plot_cumulative_scores(df: pd.DataFrame, figsize: tuple) -> plt.Figure:
     """
     Create a cumulative scores plot for tournament players.
     
@@ -47,7 +47,7 @@ def plot_cumulative_scores(df: pd.DataFrame) -> plt.Figure:
     score_df = df.drop('Game', axis=1)
     cumulative_scores = score_df.cumsum()
     
-    fig = plt.figure(figsize=(14, 8))
+    fig = plt.figure(figsize=figsize)
     ax = plt.axes([0.08, 0.22, 0.9, 0.73])
     
     colors, line_styles = generate_plot_styles(len(score_df.columns))
@@ -111,5 +111,11 @@ def plot_cumulative_scores(df: pd.DataFrame) -> plt.Figure:
 if __name__ == "__main__":
     CSV_PATH = "raw_data/quing_of_the_south_2024_results.csv"
     tournament_data = prepare_tournament_data(CSV_PATH)
-    figure = plot_cumulative_scores(tournament_data)
+    
+    # Wide Image
+    figure = plot_cumulative_scores(tournament_data, figsize=(14, 8))
     figure.savefig('quing_of_the_south_2024_results.png', dpi=300, bbox_inches='tight')
+    
+    # Square Image
+    figure = plot_cumulative_scores(tournament_data, figsize=(8, 8))
+    figure.savefig('quing_of_the_south_2024_results_square.png', dpi=300, bbox_inches='tight')
