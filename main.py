@@ -88,7 +88,11 @@ def plot_cumulative_scores(df: pd.DataFrame, figsize: tuple) -> plt.Figure:
     ax.set_ylabel('Cumulative Points', fontsize=10, labelpad=5)
     ax.grid(True, linestyle='--', alpha=0.3)
     ax.margins(x=0.01, y=0.02)
-    ax.set_xlim(-0.5, max_game + 12)
+    if figsize[0] == figsize[1]:
+        added_margin = 24
+    else:
+        added_margin = 12
+    ax.set_xlim(-0.5, max_game + added_margin)
     
     # Configure legend
     ncols = min(8, len(lines))
